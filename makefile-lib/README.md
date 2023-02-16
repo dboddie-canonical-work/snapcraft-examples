@@ -5,7 +5,7 @@ strict confinement, and are unable to do this via the available interfaces.
 These snaps are configured to use classic confinement.
 
 This guide shows how to enable classic confinement for a snap built with the
-`make` plugin. The example project used can be found in this repository.
+`make` plugin. The example project used in this guide can be found in [this repository](https://github.com/dboddie/snap-examples).
 
 ## Change the confinement to classic
 
@@ -30,23 +30,19 @@ Lint warnings:
 - classic: bin/example-make-lib: ELF rpath should be set to '/snap/core22/current/lib/x86_64-linux-gnu'.
 ```
 
-If there are many warnings about libraries, the library linter can be disabled so that only classic linter warnings are shown. To do this, add a `lint` section to the `snapcraft.yaml` file:
+If there are many warnings about libraries you can disable the library linter so that only classic linter warnings are shown. See the [linters](https://snapcraft.io/docs/linters) documentation for details.
 
-```yaml
-lint:
-  ignore:
-    - library
-```
-
-## Fix linter warnings
+## Fix linter warnings in the Makefile
 
 In this example, the warnings about the ELF interpreter and rpath can be handled by adding options to the linker in the appropriate build rule of the Makefile:
 
 * `-Wl,-dynamic-linker=/snap/core22/current/lib64/ld-linux-x86-64.so.2`
 * `-Wl,-rpath=/snap/core22/current/lib/x86_64-linux-gnu`
 
-This could be done using the `LDFLAGS` environment variable, like this:
+If the `LDFLAGS` environment variable is used in the Makefile, the `snapcraft.yaml` file could be updated to pass these options to the `make` plugin, like this:
 
 ```
-
+    plugin: make
+    make-parameters:
+      - LDFLAGS="-Wl,-dynamic-linker=/snap/core22/current/lib64/ld-linux-x86-64.so.2 -Wl,-rpath=/snap/core22/current/lib/x86_64-linux-gnu"
 ```
