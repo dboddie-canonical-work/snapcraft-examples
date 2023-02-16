@@ -41,7 +41,7 @@ In this example, the warnings about the ELF interpreter and rpath can be handled
 
 If the `LDFLAGS` environment variable is used in the Makefile, the `snapcraft.yaml` file could be updated to pass these options to the `make` plugin, like this:
 
-```
+```yaml
     plugin: make
     make-parameters:
       - LDFLAGS="-Wl,-dynamic-linker=/snap/core22/current/lib64/ld-linux-x86-64.so.2 -Wl,-rpath=/snap/core22/current/lib/x86_64-linux-gnu"
