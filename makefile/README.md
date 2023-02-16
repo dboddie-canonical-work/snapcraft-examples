@@ -2,7 +2,6 @@
 
 This guide shows how to create a snap for a Makefile project, using a simple
 project as an example.
-
 You will need to [install Snapcraft](https://snapcraft.io/docs/snapcraft-setup)
 before following these steps.
 
@@ -34,18 +33,11 @@ $ make clean
 rm -f make-example
 ```
 
-With a working
+Now that you have a working application, you can start to package it as a snap.
 
-## Create a snapcraft project file
+## Using a snapcraft project file
 
-In the project directory, run the `snapcraft` tool to create an initial `snapcraft.yaml` project file:
-
-```bash
-$ snapcraft init
-```
-
-This will create a subdirectory called `snap` containing the `snapcraft.yaml` file with some default
-definitions. Modify
+Normally, you would run `snapcraft init` in the project directory to create an initial `snap/snapcraft.yaml` project file that you can edit. In this case the project file is already provided:
 
 ```yaml
 name: make-example
@@ -64,7 +56,9 @@ apps:
     command: bin/make-example
 
 parts:
-  make-example-part:
+  make-example:
     plugin: make
     source: .
 ```
+
+In the `parts` section, note the values of the `plugin` and `source` keys for the `make-example-part`. These tells snapcraft to use the `make` plugin to build the contents of the project directory.
